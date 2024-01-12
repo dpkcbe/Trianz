@@ -1,0 +1,90 @@
+# Learn HCL
+/*
+asdjaoidj
+*/
+
+#block
+block_type {
+  attribute1 = value1
+  attribute2 = value2
+}
+
+#attribute
+key = value
+
+#datatypes
+"string"
+integer - 12
+boolean - true,false
+
+List-
+list = ["item1","item2","item3"]
+security_groups = ["sg-2","sg-5"]
+
+Map-
+variable "example_map" {
+    type = map
+    default = {key="value1", name = "Aswath", age = 24}
+}
+
+locals {
+    my_map = {"name"="John", "age"=24, "is_admin"=true}
+}
+
+.locals.my_map["age"]
+
+
+#conditions
+? :  (if else)
+
+resourse "aws_instance" "server"{
+    instance_type = var.env== dev ? "t2.micro" : "t2.small"
+}
+
+#function
+locals {
+  name = "John"
+  fruits = ["apple","orange","banana"]
+  message = "Hello ${upper(local.name)}! We know you like ${join(",",local.fruits)}"
+}
+
+output ==> Hello JOHN! We know you like apple,orange,banana
+#resourcedependency
+(Implicit dependency- automatically done by Terraform/ explicit dependency - defined by us)
+
+resourse "aws_instance" "my-ec2"{
+  vpc_security_group_ids = aws_security_group.my-sg.id
+
+}
+
+resourse "aws_security_group" "my-sg"{
+#inbound rules
+}
+
+#Variables 
+1.input
+
+resource "aws_s3_bucket" "S3" {
+  bucket = var.bucket
+}
+
+resource "aws_iam_user" "user1" {
+name = "${var.user}-user"
+}
+
+variable "bucket" {
+}
+
+variable "user" {
+}
+
+>>terraform plan -var="bucket=buckkybucket1" -var-file="prod.tfvars"
+>>terraform apply -auto-approve -var="bucket=buckkybucket1" -var-file="prod.tfvars
+
+
+2.output - to get the output like ip address, database user, endpoints etc.
+
+
+3.local - only used inside module/config where they declared.
+
+
